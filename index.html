@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGR RIJAN - Hindi TTS Web App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Section -->
+    <section id="login-section" aria-label="Login form">
+        <div class="login-form">
+            <h2>Login to NGR RIJAN</h2>
+            <input type="text" id="user-id" placeholder="User ID (1 or 2)" required aria-label="User ID">
+            <input type="password" id="password" placeholder="Password (2)" required aria-label="Password">
+            <button onclick="login()" aria-label="Login button">Login</button>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav id="nav" style="display: none;" aria-label="Main navigation">
+        <ul>
+            <li><a href="#home" class="active" onclick="showTab('home')" aria-current="page">Home</a></li>
+            <li><a href="#ngr-rijan" onclick="showTab('ngr-rijan')">NGR RIJAN</a></li>
+            <li><a href="#follow-us" onclick="showTab('follow-us')">Follow Us!</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Tab -->
+    <section id="home" class="tab-content" aria-label="Home section">
+        <svg id="watermark" width="100%" height="100%">
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#4f8cff;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#43cea2;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em" aria-hidden="true">NGR RIJAN</text>
+        </svg>
+        <div class="resource-card">
+            <div class="resource-item">
+                <h3>Ninja Ripper</h3>
+                <p>Extract 3D models and textures from games with ease.</p>
+                <a href="https://www.mediafire.com/file/8lbld9z63j07ap2/NinjaRipper.exe/file" target="_blank" aria-label="Open Ninja Ripper link">Open Link</a>
+            </div>
+            <div class="resource-item">
+                <h3>Noesis & Ninja Ripper 2-in-1</h3>
+                <p>All-in-one toolkit for model conversion and extraction.</p>
+                <a href="https://www.mediafire.com/file/lksvxd9j2m3m1cg/Downloads.rar/file" target="_blank" aria-label="Open Noesis & Ninja Ripper link">Open Link</a>
+            </div>
+            <div class="resource-item">
+                <h3>Bandicam</h3>
+                <p>Record your screen in high quality for tutorials and gameplay.</p>
+                <a href="https://www.mediafire.com/file/lksvxd9j2m3m1cg/Downloads.rar/file" target="_blank" aria-label="Open Bandicam link">Open Link</a>
+            </div>
+            <div class="resource-item">
+                <h3>Topaz Video AI Latest Version</h3>
+                <p>Latest version of Topaz Video AI Pro.</p>
+                <a href="https://www.mediafire.com/file/2vbhi4ce146gxzo/Topaz+Video+AI+Pro+7.0.3+(x64)+[FileCR].rar/file" target="_blank" aria-label="Open Topaz Video AI link">Open Link</a>
+            </div>
+            <div class="resource-item">
+                <h3>Protected Private for Only NGR</h3>
+                <p>Password-protected resource (password: NGR).</p>
+                <a href="https://www.mediafire.com/file/zonnw7j1lp67s2z/a+an+top+edit.rar/file" target="_blank" aria-label="Open Protected Private link">Open Link</a>
+            </div>
+            <div class="resource-item">
+                <h3>Medice</h3>
+                <p>Medicine-related resource.</p>
+                <a href="https://www.mediafire.com/file/jwmil38minzygqn/Medicine.rar/file" target="_blank" aria-label="Open Medice link">Open Link</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NGR RIJAN Tab -->
+    <section id="ngr-rijan" class="tab-content" aria-label="NGR RIJAN section">
+        <h2>NGR RIJAN</h2>
+        <p>स्वागत है उपयोगकर्ता, यह ऐप एनजीआर द्वारा हिंदी में बनाया गया है</p>
+        <div class="tts-container">
+            <textarea id="tts-text" placeholder="Enter text to speak in Hindi" aria-label="Text input for speech"></textarea>
+            <select id="voice-select" aria-label="Select voice"></select>
+            <div class="tts-controls">
+                <label for="volume">Volume: <input type="range" id="volume" min="0" max="1" step="0.1" value="1" aria-label="Volume control"></label>
+                <label for="speed">Speed: <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1" aria-label="Speed control"></label>
+            </div>
+            <button onclick="speak()" aria-label="Speak button">Speak</button>
+            <button onclick="stopSpeech()" aria-label="Stop button">Stop</button>
+            <p id="tts-status" aria-live="polite">Status: Ready</p>
+            <p id="tts-message" aria-live="polite"></p>
+            <div id="tts-history" aria-label="Recent TTS inputs">
+                <h3>Recent Inputs</h3>
+                <ul id="history-list"></ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Follow Us Tab -->
+    <section id="follow-us" class="tab-content" aria-label="Follow Us section">
+        <div class="youtube-row" onclick="window.open('https://youtube.com/@ngr-rijan?si=Dkx6kBXwVBRMPovk', '_blank')" role="link" tabindex="0" aria-label="Visit our YouTube channel">
+            <svg viewBox="0 0 100 100">
+                <path d="M90 30s-2-10-10-12c-10-2-50-2-50-2s-40 0-50 2c-8 2-10 12-10 12s0 20 0 30 2 20 10 22c10 2 50 2 50 2s40 0 50-2c8-2 10-12 10-12s0-20 0-30z" fill="#ff0000"/>
+                <path d="M40 70l30-20-30-20v40z" fill="#fff"/>
+                <text x="10" y="90" font-size="20">YouTube</text>
+            </svg>
+            <h3>Follow Us on YouTube</h3 SDOT
+                <h3>Follow Us on YouTube</h3>
+            </div>
+            <p>We’re on the road to 500 subscribers! Help us reach our goal. Something new and exciting is coming soon—stay tuned and make sure to subscribe so you don’t miss out!</p>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2025 NGR RIJAN | <a href="#privacy" aria-label="Privacy Policy">Privacy Policy</a> | <a href="#contact" aria-label="Contact Us">Contact Us</a></p>
+        </footer>
+
+        <script src="script.js"></script>
+    </body>
+</html>
