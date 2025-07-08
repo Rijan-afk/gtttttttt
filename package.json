@@ -1,0 +1,19 @@
+{
+  "name": "coding-academy-desktop",
+  "version": "0.1.0",
+  "main": "electron-main/main.ts",
+  "scripts": {
+    "start": "electron .",
+    "build": "tsc && webpack"
+  },
+  "dependencies": {
+    "electron": "^27.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0"
+  }
+} 
