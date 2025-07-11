@@ -1,117 +1,813 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta Tags for SEO and Accessibility -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NGR RIJAN Hindi TTS Web App - A modern text-to-speech platform with resource links and YouTube integration.">
+    <meta name="keywords" content="Hindi TTS, text-to-speech, NGR RIJAN, resources, YouTube">
+    <meta name="author" content="NGR RIJAN Team">
     <title>NGR RIJAN - Hindi TTS Web App</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Google Fonts for Enhanced Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+        /* ------------------------------------------ */
+        /* CSS Custom Properties for Theming */
+        /* ------------------------------------------ */
+        :root {
+            --primary-blue: #4f8cff;
+            --primary-green: #43cea2;
+            --accent-pink: #ff6ec4;
+            --accent-gold: #ffd700;
+            --youtube-red: #ff0000;
+            --bg-dark: #23233a;
+            --bg-light: #f5f5f5;
+            --text-dark: #fff;
+            --text-light: #23233a;
+            --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            --current-theme: dark;
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f5f5f5;
+            --text-dark: #23233a;
+            --bg-light: #23233a;
+            --text-light: #fff;
+        }
+
+        /* ------------------------------------------ */
+        /* Base Styles */
+        /* ------------------------------------------ */
+        * {
+      margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ------------------------------------------ */
+        /* Animation Keyframes */
+        /* ------------------------------------------ */
+    @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.05); opacity: 0.15; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+
+        @keyframes ripple {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes glow {
+            0% { filter: drop-shadow(0 0 5px var(--youtube-red)); }
+            50% { filter: drop-shadow(0 0 15px var(--youtube-red)); }
+            100% { filter: drop-shadow(0 0 5px var(--youtube-red)); }
+        }
+
+        /* ------------------------------------------ */
+        /* Navigation Styles */
+        /* ------------------------------------------ */
+        nav {
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-green));
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: var(--text-dark);
+            text-decoration: none;
+      font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        nav ul li a:hover, nav ul li a.active, nav ul li a:focus {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* ------------------------------------------ */
+        /* Login Form Styles */
+        /* ------------------------------------------ */
+        #login-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #23233a 60%, #4f8cff 100%);
+            animation: fadeIn 0.7s;
+        }
+
+    .login-form {
+            background: rgba(255,255,255,0.07);
+            color: #fff;
+            padding: 2.5rem 2rem 2rem 2rem;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+      width: 100%;
+            max-width: 350px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s;
+        }
+
+        .login-title {
+            background: linear-gradient(45deg, #4f8cff, #43cea2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+    .login-form input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin: 1rem 0 0.5rem 0;
+            border: none;
+      border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+      color: #fff;
+            font-size: 1rem;
+      outline: none;
+            transition: box-shadow 0.2s, background 0.2s;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.05);
+    }
+    .login-form input:focus {
+            background: rgba(79,140,255,0.15);
+            box-shadow: 0 0 0 2px #4f8cff;
+        }
+
+        .login-form button {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.75rem 0;
+            border: none;
+            border-radius: 8px;
+      background: linear-gradient(90deg, #4f8cff, #43cea2);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(67,206,162,0.15);
+        }
+        .login-form button:focus, .login-form button:hover {
+            transform: scale(1.04);
+            box-shadow: 0 4px 16px rgba(67,206,162,0.25);
+        }
+
+        .login-form button .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            background: rgba(255,255,255,0.4);
+            width: 100px;
+            height: 100px;
+            left: 50%;
+            top: 50%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .login-form button .ripple.show {
+            animation: ripple 0.6s linear;
+            opacity: 1;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* ------------------------------------------ */
+        /* Main Content Styles */
+        /* ------------------------------------------ */
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ------------------------------------------ */
+        /* Home Tab Styles */
+        /* ------------------------------------------ */
+        #home {
+            position: relative;
+            text-align: center;
+        }
+
+        .resource-card {
+            background: linear-gradient(120deg, rgba(67,206,162,0.10) 0%, rgba(79,140,255,0.10) 100%);
+            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.15);
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+            max-width: 800px;
+            margin: 2rem auto;
+            backdrop-filter: blur(2px);
+            transition: box-shadow 0.3s;
+        }
+
+        .resource-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem 1rem;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 2px 12px 0 rgba(67,206,162,0.07);
+            transition: background 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .resource-item:hover, .resource-item:focus-within {
+            background: rgba(67,206,162,0.13);
+            box-shadow: 0 4px 24px 0 rgba(67,206,162,0.15);
+        }
+
+        .resource-item h3 {
+            background: linear-gradient(90deg, #4f8cff, #43cea2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .resource-item p {
+            color: #e0e0e0;
+            margin: 0.5rem 0 1rem 0;
+      font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .resource-item a {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-green));
+            color: var(--text-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .resource-item a:hover, .resource-item a:focus {
+            transform: scale(1.05);
+        }
+
+        .resource-item a::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
+        }
+
+        .resource-item a:active::after {
+            animation: ripple 0.6s linear;
+        }
+
+        /* Tooltip Styles */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background: var(--bg-light);
+            color: var(--text-light);
+            text-align: center;
+            border-radius: 5px;
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text, .tooltip:focus .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Animated Watermark */
+        #watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 3s infinite;
+        }
+
+        #watermark text {
+            font-size: 100px;
+            font-weight: bold;
+            fill: none;
+            stroke: url(#gradient);
+            stroke-width: 2;
+            letter-spacing: 10px;
+        }
+
+        /* ------------------------------------------ */
+        /* NGR RIJAN Tab Styles */
+        /* ------------------------------------------ */
+        #ngr-rijan {
+      text-align: center;
+        }
+
+        #ngr-rijan h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .tts-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tts-container textarea {
+            width: 100%;
+            height: 100px;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .tts-container select, .tts-container button, .tts-container input[type="range"] {
+            padding: 0.5rem;
+            margin: 0.5rem;
+            border-radius: 5px;
+            border: none;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-green));
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .tts-container select:hover, .tts-container button:hover, .tts-container input[type="range"]:hover {
+            transform: scale(1.05);
+        }
+
+        .tts-container button::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
+        }
+
+        .tts-container button:active::after {
+            animation: ripple 0.6s linear;
+        }
+
+        .tts-container .loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0.5rem auto;
+        }
+
+        .tts-history {
+            margin-top: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .tts-history-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .tts-history-item:hover, .tts-history-item:focus {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tts-message {
+            color: var(--accent-pink);
+            margin-top: 0.5rem;
+        }
+
+        /* ------------------------------------------ */
+        /* Follow Us Tab Styles */
+        /* ------------------------------------------ */
+        #follow-us {
+            text-align: center;
+        }
+
+        .youtube-row {
+      display: flex;
+            align-items: center;
+      justify-content: center;
+            margin: 2rem 0;
+            cursor: pointer;
+            transition: filter 0.3s;
+        }
+
+        .youtube-row:hover, .youtube-row:focus {
+            animation: glow 1.5s infinite;
+        }
+
+        .youtube-row svg {
+            width: 50px;
+            height: 50px;
+            margin-right: 1rem;
+        }
+
+        .youtube-row text {
+            font-size: 1.5rem;
+            fill: none;
+            stroke: url(#youtubeGradient);
+            stroke-width: 2;
+            animation: strokeAnim 3s infinite;
+        }
+
+        @keyframes strokeAnim {
+            0% { stroke: var(--youtube-red); }
+            50% { stroke: var(--accent-gold); }
+            100% { stroke: var(--youtube-red); }
+        }
+
+        .youtube-row p {
+            color: #ccc;
+            max-width: 600px;
+            margin: 1rem auto;
+        }
+
+        /* ------------------------------------------ */
+        /* Additional Tab Styles */
+        /* ------------------------------------------ */
+        #about, #faq, #tutorials {
+            text-align: center;
+        }
+
+        .section-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ------------------------------------------ */
+        /* Modal Styles */
+        /* ------------------------------------------ */
+        .modal {
+            display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background: var(--bg-light);
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .modal-content button {
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-green));
+            color: var(--text-dark);
+            padding: 0.5rem 1rem;
+      border: none;
+            border-radius: 5px;
+      cursor: pointer;
+    }
+
+        /* ------------------------------------------ */
+        /* Footer Styles */
+        /* ------------------------------------------ */
+        footer {
+            background: var(--bg-dark);
+            padding: 1rem;
+      text-align: center;
+            position: sticky;
+            bottom: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        footer a:hover, footer a:focus {
+            text-decoration: underline;
+        }
+
+        /* ------------------------------------------ */
+        /* Responsive Design */
+        /* ------------------------------------------ */
+        @media (max-width: 768px) {
+            nav ul {
+      flex-direction: column;
+      align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .resource-card, .tts-container, .section-content {
+                padding: 1rem;
+            }
+
+            #watermark text {
+                font-size: 50px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .resource-card {
+                padding: 1.2rem 0.5rem;
+            }
+            .resource-item {
+                padding: 1rem 0.5rem;
+            }
+    }
+  </style>
 </head>
-<body>
+<body data-theme="dark">
+    <!-- ------------------------------------------ -->
     <!-- Login Section -->
-    <section id="login-section" aria-label="Login form">
+    <!-- ------------------------------------------ -->
+    <section id="login-section" aria-label="Login to NGR RIJAN" style="display: flex;">
         <div class="login-form">
-            <h2>Login to NGR RIJAN</h2>
-            <input type="text" id="user-id" placeholder="User ID (1 or 2)" required aria-label="User ID">
-            <input type="password" id="password" placeholder="Password (2)" required aria-label="Password">
-            <button onclick="login()" aria-label="Login button">Login</button>
+            <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 1rem;">
+                <defs>
+                    <linearGradient id="loginGrad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#4f8cff"/>
+                        <stop offset="100%" stop-color="#43cea2"/>
+                    </linearGradient>
+                </defs>
+                <circle cx="40" cy="40" r="36" fill="url(#loginGrad)" opacity="0.2"/>
+                <text x="50%" y="55%" text-anchor="middle" fill="url(#loginGrad)" font-size="32" font-weight="bold" dy=".3em">🔒</text>
+            </svg>
+            <h2 class="login-title">Login to NGR RIJAN</h2>
+            <input type="text" id="user-id" placeholder="User ID" aria-label="User ID" required autocomplete="username">
+            <input type="password" id="password" placeholder="Password" aria-label="Password" required autocomplete="current-password">
+            <button type="button" onclick="login()" aria-label="Login">
+                <span>Login</span>
+                <span class="ripple"></span>
+            </button>
+            <p id="login-error" style="color: #ff6ec4; display: none; margin-top: 1rem;">Invalid User ID or Password</p>
         </div>
     </section>
 
+    <!-- ------------------------------------------ -->
     <!-- Navigation -->
-    <nav id="nav" style="display: none;" aria-label="Main navigation">
+    <!-- ------------------------------------------ -->
+    <nav id="nav" style="display: none;" role="navigation">
         <ul>
-            <li><a href="#home" class="active" onclick="showTab('home')" aria-current="page">Home</a></li>
-            <li><a href="#ngr-rijan" onclick="showTab('ngr-rijan')">NGR RIJAN</a></li>
-            <li><a href="#follow-us" onclick="showTab('follow-us')">Follow Us!</a></li>
+            <li><a href="#home" class="active" onclick="showTab('home')" aria-label="Home Tab">Home</a></li>
+            <li><a href="#ngr-rijan" onclick="showTab('ngr-rijan')" aria-label="NGR RIJAN Tab">NGR RIJAN</a></li>
+            <li><a href="#follow-us" onclick="showTab('follow-us')" aria-label="Follow Us Tab">Follow Us!</a></li>
         </ul>
     </nav>
 
-    <!-- Home Tab -->
-    <section id="home" class="tab-content" aria-label="Home section">
-        <svg id="watermark" width="100%" height="100%">
-            <defs>
-                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#4f8cff;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#43cea2;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <text x="50%" y="50%" text-anchor="middle" dy=".3em" aria-hidden="true">NGR RIJAN</text>
+    <!-- ------------------------------------------ -->
+    <!-- Main Content -->
+    <!-- ------------------------------------------ -->
+    <div class="tab-content active" id="home" style="display: none;">
+        <svg id="watermark" width="100%" height="100%" style="display: none;">
+            <!-- ...SVG content... -->
         </svg>
         <div class="resource-card">
+            <!-- ...all your resource-item divs with links and text... -->
             <div class="resource-item">
-                <h3>Ninja Ripper</h3>
-                <p>Extract 3D models and textures from games with ease.</p>
-                <a href="https://www.mediafire.com/file/8lbld9z63j07ap2/NinjaRipper.exe/file" target="_blank" aria-label="Open Ninja Ripper link">Open Link</a>
+                <h3>A top an Edit cc Premium For NGR</h3>
+                <p></p>
+                <button class="open-link-btn" data-link="https://www.mediafire.com/file/zonnw7j1lp67s2z/a_an_top_edit.rar/file" aria-label="Download A top an Edit cc Premium For NGR">Open Link</button>
             </div>
             <div class="resource-item">
-                <h3>Noesis & Ninja Ripper 2-in-1</h3>
-                <p>All-in-one toolkit for model conversion and extraction.</p>
-                <a href="https://www.mediafire.com/file/lksvxd9j2m3m1cg/Downloads.rar/file" target="_blank" aria-label="Open Noesis & Ninja Ripper link">Open Link</a>
+                <h3>Medicine</h3>
+                <p></p>
+                <button class="open-link-btn" data-link="https://www.mediafire.com/file/jwmil38minzygqn/Medicine.rar/file" aria-label="Download Medicine">Open Link</button>
             </div>
             <div class="resource-item">
-                <h3>Bandicam</h3>
-                <p>Record your screen in high quality for tutorials and gameplay.</p>
-                <a href="https://www.mediafire.com/file/lksvxd9j2m3m1cg/Downloads.rar/file" target="_blank" aria-label="Open Bandicam link">Open Link</a>
+                <h3>Topaz 7.0.3</h3>
+                <p></p>
+                <button class="open-link-btn" data-link="https://www.mediafire.com/file/2vbhi4ce146gxzo/Topaz_Video_AI_Pro_7.0.3_%2528x64%2529_%255BFileCR%255D.rar/file" aria-label="Download Topaz 7.0.3">Open Link</button>
             </div>
             <div class="resource-item">
-                <h3>Topaz Video AI Latest Version</h3>
-                <p>Latest version of Topaz Video AI Pro.</p>
-                <a href="https://www.mediafire.com/file/2vbhi4ce146gxzo/Topaz+Video+AI+Pro+7.0.3+(x64)+[FileCR].rar/file" target="_blank" aria-label="Open Topaz Video AI link">Open Link</a>
+                <h3>ninja ripper</h3>
+                <p></p>
+                <button class="open-link-btn" data-link="https://www.mediafire.com/file/8lbld9z63j07ap2/NinjaRipper.exe/file" aria-label="Download ninja ripper">Open Link</button>
             </div>
             <div class="resource-item">
-                <h3>Protected Private for Only NGR</h3>
-                <p>Password-protected resource (password: NGR).</p>
-                <a href="https://www.mediafire.com/file/zonnw7j1lp67s2z/a+an+top+edit.rar/file" target="_blank" aria-label="Open Protected Private link">Open Link</a>
+                <h3>Noeisi+Ninja Ripper Full App Safe</h3>
+                <p>Get the full, safe version of Noeisi and Ninja Ripper combined.</p>
+                <button class="open-link-btn" data-link="https://www.mediafire.com/file/lksvxd9j2m3m1cg/Downloads.rar/file" aria-label="Download Noeisi+Ninja Ripper Full App Safe">Open Link</button>
             </div>
-            <div class="resource-item">
-                <h3>Medice</h3>
-                <p>Medicine-related resource.</p>
-                <a href="https://www.mediafire.com/file/jwmil38minzygqn/Medicine.rar/file" target="_blank" aria-label="Open Medice link">Open Link</a>
+            <div style="text-align:center; margin-top:1.5em;">
+                <span style="color:#ffd700; font-size:1.2em; font-weight:bold;">Photoshop</span><br>
+                <button class="open-link-btn" data-link="https://www.mediafire.com/file/d9lcxz2cwp70jfc/Ps2025v26.5_DownloadPirate.com.rar/file" aria-label="Download Photoshop" style="margin-top:0.5em;">Open Link</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- NGR RIJAN Tab -->
-    <section id="ngr-rijan" class="tab-content" aria-label="NGR RIJAN section">
-        <h2>NGR RIJAN</h2>
-        <p>स्वागत है उपयोगकर्ता, यह ऐप एनजीआर द्वारा हिंदी में बनाया गया है</p>
-        <div class="tts-container">
-            <textarea id="tts-text" placeholder="Enter text to speak in Hindi" aria-label="Text input for speech"></textarea>
-            <select id="voice-select" aria-label="Select voice"></select>
-            <div class="tts-controls">
-                <label for="volume">Volume: <input type="range" id="volume" min="0" max="1" step="0.1" value="1" aria-label="Volume control"></label>
-                <label for="speed">Speed: <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1" aria-label="Speed control"></label>
-            </div>
-            <button onclick="speak()" aria-label="Speak button">Speak</button>
-            <button onclick="stopSpeech()" aria-label="Stop button">Stop</button>
-            <p id="tts-status" aria-live="polite">Status: Ready</p>
-            <p id="tts-message" aria-live="polite"></p>
-            <div id="tts-history" aria-label="Recent TTS inputs">
-                <h3>Recent Inputs</h3>
-                <ul id="history-list"></ul>
+    <div class="tab-content" id="ngr-rijan" style="display: none;">
+        <div class="resource-card" style="margin-top: 3em;">
+            <div style="text-align:center;">
+                <span style="color:#ffd700; font-size:1.5em; font-weight:bold;">Photoshop</span><br>
+                <a href="https://www.mediafire.com/file/d9lcxz2cwp70jfc/Ps2025v26.5_DownloadPirate.com.rar/file" target="_blank" style="display:inline-block; background:linear-gradient(45deg,#4f8cff,#43cea2); color:#23233a; font-weight:bold; padding:0.5em 1.5em; border-radius:6px; text-decoration:none; margin-top:1em;">Open Link</a>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Follow Us Tab -->
-    <section id="follow-us" class="tab-content" aria-label="Follow Us section">
-        <div class="youtube-row" onclick="window.open('https://youtube.com/@ngr-rijan?si=Dkx6kBXwVBRMPovk', '_blank')" role="link" tabindex="0" aria-label="Visit our YouTube channel">
-            <svg viewBox="0 0 100 100">
-                <path d="M90 30s-2-10-10-12c-10-2-50-2-50-2s-40 0-50 2c-8 2-10 12-10 12s0 20 0 30 2 20 10 22c10 2 50 2 50 2s40 0 50-2c8-2 10-12 10-12s0-20 0-30z" fill="#ff0000"/>
-                <path d="M40 70l30-20-30-20v40z" fill="#fff"/>
-                <text x="10" y="90" font-size="20">YouTube</text>
-            </svg>
-            <h3>Follow Us on YouTube</h3 SDOT
-                <h3>Follow Us on YouTube</h3>
-            </div>
-            <p>We’re on the road to 500 subscribers! Help us reach our goal. Something new and exciting is coming soon—stay tuned and make sure to subscribe so you don’t miss out!</p>
-        </section>
+    <div class="tab-content" id="follow-us">
+        <!-- Follow Us Tab Content -->
+  </div>
 
-        <!-- Footer -->
-        <footer>
-            <p>© 2025 NGR RIJAN | <a href="#privacy" aria-label="Privacy Policy">Privacy Policy</a> | <a href="#contact" aria-label="Contact Us">Contact Us</a></p>
-        </footer>
+    <div class="tab-content" id="about">
+        <!-- About Tab Content -->
+    </div>
 
-        <script src="script.js"></script>
-    </body>
-</html>
+    <div class="tab-content" id="faq">
+        <!-- FAQ Tab Content -->
+  </div>
+
+    <div class="tab-content" id="tutorials">
+        <!-- Tutorials Tab Content -->
+    </div>
+
+    <!-- ------------------------------------------ -->
+    <!-- Modal -->
+    <!-- ------------------------------------------ -->
+    <div class="modal" id="password-modal">
+        <div class="modal-content">
+            <h3>Enter Password to Open Link</h3>
+            <input type="password" id="resource-password" placeholder="Password" aria-label="Resource Password">
+            <button id="submit-password">Submit</button>
+            <button id="cancel-password">Cancel</button>
+            <p id="password-error" style="color: red; display: none;">Incorrect password. Please try again.</p>
+    </div>
+  </div>
+
+    <!-- ------------------------------------------ -->
+    <!-- Footer -->
+    <!-- ------------------------------------------ -->
+    <footer>
+        <!-- Footer Content -->
+    </footer>
+
+    <!-- ------------------------------------------ -->
+    <!-- JavaScript -->
+    <!-- ------------------------------------------ -->
+  <script>
+        function login() {
+            const userId = document.getElementById('user-id').value;
+            const password = document.getElementById('password').value;
+            const error = document.getElementById('login-error');
+            if (userId === '1' && password === '2') {
+                // Remove login UI from DOM after login
+                const loginSection = document.getElementById('login-section');
+                if (loginSection) loginSection.style.display = 'none';
+                document.getElementById('nav').style.display = 'block';
+                document.getElementById('home').style.display = 'block';
+                document.getElementById('watermark').style.display = 'block';
+                error.style.display = 'none';
+            } else {
+                error.style.display = 'block';
+            }
+        }
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+            if(tabId === 'home') {
+                document.getElementById('watermark').style.display = 'block';
+            } else {
+                document.getElementById('watermark').style.display = 'none';
+            }
+            document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
+            document.querySelector('nav ul li a[href="#' + tabId + '"]').classList.add('active');
+        }
+
+        // Password-protected resource links
+        let currentResourceLink = '';
+        document.querySelectorAll('.open-link-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentResourceLink = this.getAttribute('data-link');
+                document.getElementById('resource-password').value = '';
+                document.getElementById('password-error').style.display = 'none';
+                document.getElementById('password-modal').style.display = 'flex';
+                document.getElementById('resource-password').focus();
+            });
+        });
+        document.getElementById('submit-password').addEventListener('click', function() {
+            const entered = document.getElementById('resource-password').value;
+            // Accept '2' for old links, 'NGR' (case-insensitive) for Photoshop
+            if (
+                entered === '2' ||
+                (currentResourceLink === 'https://www.mediafire.com/file/d9lcxz2cwp70jfc/Ps2025v26.5_DownloadPirate.com.rar/file' && entered.trim().toLowerCase() === 'ngr')
+            ) {
+                document.getElementById('password-modal').style.display = 'none';
+                window.open(currentResourceLink, '_blank');
+            } else {
+                document.getElementById('password-error').style.display = 'block';
+            }
+        });
+        document.getElementById('cancel-password').addEventListener('click', function() {
+            document.getElementById('password-modal').style.display = 'none';
+        });
+        document.getElementById('resource-password').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('submit-password').click();
+            }
+        });
+  </script>
+</body>
+</html> 

@@ -1,24 +1,25 @@
-# Coding Academy Desktop App
+# Project Title
 
-## Setup
-
-1. Install Node.js and Python 3.8+
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Install Python backend dependencies:
-   ```
-   pip install fastapi uvicorn
-   ```
-4. Start the app:
-   ```
-   npm start
-   ```
+A brief description of what your project does and who it's for.
 
 ## Features
-- Electron + React + TypeScript frontend
-- Python FastAPI backend
-- Gemini AI Assistant (text-to-code)
-- Modular curriculum system
-- Code execution (coming soon) 
+- Feature 1
+- Feature 2
+
+## Installation
+```bash
+git clone https://github.com/yourusername/yourrepo.git
+cd yourrepo
+# Add more install steps here
+```
+
+## Usage
+```bash
+# How to run or use your project
+```
+
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first.
+
+## License
+[MIT](LICENSE.txt) 
